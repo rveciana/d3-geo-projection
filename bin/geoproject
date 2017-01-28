@@ -13,6 +13,7 @@ commander
     .option("-o, --out <file>", "output file name; defaults to “-” for stdout", "-")
     .option("-p, --precision <value>", "number of output digits after the decimal point")
     .option("-n, --newline-delimited", "use newline-delimited JSON")
+    .option("-r, --require <value>", "require an external library before executing the script")
     .parse(process.argv);
 
 if (commander.args.length < 1) {
@@ -27,6 +28,10 @@ if (commander.args.length < 1) {
   process.exit(1);
 } else if (commander.args.length === 1) {
   commander.args.push("-");
+}
+
+if (commander.require){
+  d3 = Object.assign(d3, require(commander.require));
 }
 
 var sandbox = {d3: d3, d: undefined, i: -1},
